@@ -61,5 +61,18 @@ def editProduct(product_name):
     return jsonify({"message": "Product no found"})
 
 #----------------------------- DELETE PRODUCTS -----------------------------
-if __name__ == '__main__': #Se crea una condición, de que si el archivo se esta ejecutando como principal.
+
+@app.route('/products/<string:product_name>', methods=['DELETE'])#El método DELETE, elimina un objeto.
+def deleteProduct(product_name):
+    productFound = [product for product in products if product['name'] == product_name]
+    if (len(productFound) > 0):
+        products.remove(productFound[0])
+        return jsonify({
+            "message": "Product delete.",
+            "products": products
+            })
+    return jsonify({"message": "Product no found."})
+    
+#------------------ Se crea una condición, de que si el archivo se esta ejecutando como principal. ------------------
+if __name__ == '__main__': 
     app.run(debug=True, port=4000)
